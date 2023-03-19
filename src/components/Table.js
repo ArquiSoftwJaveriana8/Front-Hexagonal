@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import xml2js from 'xml2js';
+import Edit from './Edit';
 
 //metodo GET
 function Table() {
@@ -59,43 +60,33 @@ function Table() {
   };
 
   //Metodo PUT
-  const [editProductId, setEditProductId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
-  const handleEditClick = productId => {
-    setEditProductId(productId);
+  const handleEditClick = (id) => {
+    setSelectedProduct(data.find(item => item.id === id));
+    setShowForm(true);
   };
   
 
   return (
-    <table className='table'>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Color</th>
-          <th>Size</th>
-          <th>Brand</th>
-          <th>CreatedAt</th>
-          <th>UpdatedAt</th>
-          <th className='buttonColum'>Delete</th>
-          <th className='buttonColumEdit'>Modify</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data?.map(item => (
-          <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.name}</td>
-            <td>{item.color}</td>
-            <td>{item.size}</td>
-            <td>{item.brand}</td>
-            <td>{item.createdAt}</td>
-            <td>{item.updatedAt}</td>
-            <td><button onClick={() => handleDelete(item.id)} className='deleteB'>Delete</button></td>
-            <td><button type="button" onClick={() => handleEditClick(item.id)} className='modify'>Modify</button></td>
+    <div>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Color</th>
+            <th>Size</th>
+            <th>Brand</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th className='buttonColum'>Delete</th>
+            <th className='buttonColumEdit'>Modify</th>
           </tr>
-        ))}
-        {dataxml.map(item => (
+        </thead>
+        <tbody>
+          {data?.map(item => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
@@ -105,11 +96,42 @@ function Table() {
               <td>{item.createdAt}</td>
               <td>{item.updatedAt}</td>
               <td><button onClick={() => handleDelete(item.id)} className='deleteB'>Delete</button></td>
-              <td><button onClick={() => handleDelete(item.id)} className='modify'>Modify</button></td>
+              <td>
+                {showForm ? (
+                  <button className='modify' disabled>Modify</button>
+                ) : (
+                  <button className='modify' onClick={() => handleEditClick(item.id)}>Modify</button>
+                )}
+              </td>
             </tr>
           ))}
-      </tbody>
-    </table>
+          {dataxml.map(item => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.color}</td>
+                <td>{item.size}</td>
+                <td>{item.brand}</td>
+                <td>{item.createdAt}</td>
+                <td>{item.updatedAt}</td>
+                <td><button onClick={() => handleDelete(item.id)} className='deleteB'>Delete</button></td>
+                <td>
+                  {showForm ? (
+                    <button className='modify' disabled>Modify</button>
+                  ) : (
+                    <button className='modify' onClick={() => handleEditClick(item.id)}>Modify</button>
+                  )}
+              </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+      {showForm && (
+        <div className="buttonContainer">
+          <Edit product={selectedProduct}/>
+        </div>
+      )}
+    </div>
   );
 }
 

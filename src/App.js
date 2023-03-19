@@ -15,9 +15,9 @@ function App() {
     <div>
       <h1 className='title'>Products table</h1>
       <Table/>
-      <div className="buttonContainer">
-      {!showForm && <button className='buttonAdd' onClick={handleClick}>Add</button>}
-      {showForm && <Add />}
+        <div className="buttonContainer">
+          {!showForm && <button className='buttonAdd' onClick={handleClick}>Add</button>}
+          {showForm && <Add />}
         </div>
     </div>
   );

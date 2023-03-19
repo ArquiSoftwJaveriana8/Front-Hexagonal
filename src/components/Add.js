@@ -54,7 +54,7 @@ function Add(){
         console.log(formData.color)
         const data = await response.json();
         console.log(data);
-      };
+    };
 
     return(
         <div className="formDiv">
