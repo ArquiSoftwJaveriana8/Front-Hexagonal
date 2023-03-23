@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import { parseString } from 'xml2js';
+
 
 function Add(){
     const [isDifferentEndpoint, setIsDifferentEndpoint] = useState(false);
@@ -35,10 +37,22 @@ function Add(){
         let body = null;
         let contentType = null;
         if (isDifferentEndpoint) {
-          // Si se debe enviar como XML
-          const formData = new FormData(event.target);
-          body = formData;
-          contentType = "multipart/form-data";
+            // Si se debe enviar como XML
+            const formData = new FormData(event.target);
+            const product = {
+            name: event.target.elements.name.value,
+            color: event.target.elements.color.value,
+            size: event.target.elements.size.value,
+            brand: event.target.elements.brand.value,
+            };
+            const productXML = `<product>
+            <name>${product.name}</name>
+            <color>${product.color}</color>
+            <size>${product.size}</size>
+            <brand>${product.brand}</brand>
+            </product>`;
+            body = productXML;
+            contentType = "text/xml";
         } else {
           // Si se debe enviar como JSON
           body = JSON.stringify(formData);
@@ -51,8 +65,22 @@ function Add(){
           },
           body: body
         });
-        console.log(formData.color)
-        const data = await response.json();
+        //console.log(formData.color)
+        const contentTypeHeader = response.headers.get('Content-Type');
+        let data;
+        if (contentTypeHeader && contentTypeHeader.includes('application/json')) {
+            data = await response.json();
+        } else {
+            const xml = await response.text();
+            const parser = require('xml2js').parseString;
+            parser(xml, (err, result) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                data = result;
+            });
+        }
         console.log(data);
     };
 

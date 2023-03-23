@@ -79,8 +79,6 @@ function Table() {
             <th>Color</th>
             <th>Size</th>
             <th>Brand</th>
-            <th>CreatedAt</th>
-            <th>UpdatedAt</th>
             <th className='buttonColum'>Delete</th>
             <th className='buttonColumEdit'>Modify</th>
           </tr>
@@ -93,8 +91,6 @@ function Table() {
               <td>{item.color}</td>
               <td>{item.size}</td>
               <td>{item.brand}</td>
-              <td>{item.createdAt}</td>
-              <td>{item.updatedAt}</td>
               <td><button onClick={() => handleDelete(item.id)} className='deleteB'>Delete</button></td>
               <td>
                 {showForm ? (
@@ -112,14 +108,12 @@ function Table() {
                 <td>{item.color}</td>
                 <td>{item.size}</td>
                 <td>{item.brand}</td>
-                <td>{item.createdAt}</td>
-                <td>{item.updatedAt}</td>
                 <td><button onClick={() => handleDelete(item.id)} className='deleteB'>Delete</button></td>
                 <td>
                   {showForm ? (
                     <button className='modify' disabled>Modify</button>
                   ) : (
-                    <button className='modify' onClick={() => handleEditClick(item.id)}>Modify</button>
+                    <button className='modify'>Modify</button>
                   )}
               </td>
               </tr>
