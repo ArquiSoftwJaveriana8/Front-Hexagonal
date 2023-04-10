@@ -15,7 +15,7 @@ function Table() {
       .catch(error => console.log(error));
 
 
-    fetch('http://localhost:24/api/products-xml')
+    /*fetch('http://localhost:24/api/products-xml')
     .then(response => response.text())
     .then(data => {
       xml2js.parseString(data, (err, result) => {
@@ -36,11 +36,11 @@ function Table() {
             };
             xmlData.push(product);
           }
-          setDataxml(xmlData);
+          //setDataxml(xmlData);
         }
       });
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log(error));*/
   }, []);
 
   //Metodo DELETE
